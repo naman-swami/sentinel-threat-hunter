@@ -1,18 +1,7 @@
-author:
-  email: kgfg00100@gmail.com
-  github: naman-swami
-  name: Naman Swami
-categories:
-- Cybersecurity
+author: Naman Swami
 description: Autonomous SOC incident correlation, alert triaging, and zero-day threat
   detection agent mapped to the MITRE ATT&CK framework with automated maker-checker
   rule validation.
-identity:
-  duties: DUTIES.md
-  explainability: EXPLAINABILITY.md
-  fallback_prompt: AGENTS.md
-  rules: RULES.md
-  soul: SOUL.md
 license: MIT
 model:
   fallback:
@@ -21,32 +10,15 @@ model:
   preferred: llama-3.3-70b-versatile
 name: sentinel-threat-hunter
 runtime:
-  default_framework: openai-sdk
-  exports_directory: exports/
-  supported_frameworks:
-  - openai-sdk
-  - crewai
-  - claude-code
-  - lyzr
-  - langchain
+  temperature: 0.2
+  timeout: 300
 skills:
-- name: ioc-correlation
-  path: skills/ioc-correlation/
-- name: mitre-attack-mapping
-  path: skills/mitre-attack-mapping/
-- name: killchain-analysis
-  path: skills/killchain-analysis/
+- ioc-correlation
+- mitre-attack-mapping
+- killchain-analysis
 spec_version: 0.1.0
-tags:
-- sentinel
-- cybersecurity
-- opengap
-- portable-agent
 tools:
-- name: lookup-threat-intel
-  path: tools/lookup-threat-intel.yaml
-- name: analyze-pcaps-logs
-  path: tools/analyze-pcaps-logs.yaml
-- name: generate-yara-rule
-  path: tools/generate-yara-rule.yaml
+- lookup-threat-intel
+- analyze-pcaps-logs
+- generate-yara-rule
 version: 0.1.0
