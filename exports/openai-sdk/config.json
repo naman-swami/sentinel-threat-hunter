@@ -1,0 +1,28 @@
+{
+  "name": "sentinel-threat-hunter",
+  "instructions": "You are sentinel-threat-hunter. Correlate telemetry alerts across endpoints and clouds, extract indicators of compromise (IOCs), and formulate automated containment runbooks.",
+  "model": "gpt-4o",
+  "tools": [
+    {
+      "type": "function",
+      "function": {
+        "name": "lookup-threat-intel",
+        "description": "Query threat feeds for IP, hash, and domain reputation telemetry."
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "analyze-pcaps-logs",
+        "description": "Parse PCAP flow records and Sysmon logs for beaconing patterns."
+      }
+    },
+    {
+      "type": "function",
+      "function": {
+        "name": "generate-yara-rule",
+        "description": "Compile verified YARA signature patterns from suspicious binary payloads."
+      }
+    }
+  ]
+}

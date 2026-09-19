@@ -1,0 +1,30 @@
+annotations:
+  cost: none
+  read_only: true
+  requires_confirmation: false
+description: Compile verified YARA signature patterns from suspicious binary payloads.
+input_schema:
+  additionalProperties: false
+  properties:
+    rule_name:
+      type: string
+    strings_pattern:
+      type: string
+  required:
+  - strings_pattern
+  - rule_name
+  type: object
+name: generate-yara-rule
+output_schema:
+  additionalProperties: false
+  properties:
+    confidence:
+      type: number
+    data:
+      type: string
+    status:
+      type: string
+  required:
+  - status
+  - data
+  type: object
