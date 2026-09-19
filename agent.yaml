@@ -1,24 +1,6 @@
-author: Naman Swami
-description: Autonomous SOC incident correlation, alert triaging, and zero-day threat
-  detection agent mapped to the MITRE ATT&CK framework with automated maker-checker
-  rule validation.
-license: MIT
-model:
-  fallback:
-  - gpt-4o
-  - claude-3-sonnet
-  preferred: llama-3.3-70b-versatile
+spec_version: "0.1.0"
 name: sentinel-threat-hunter
-runtime:
-  temperature: 0.2
-  timeout: 300
-skills:
-- ioc-correlation
-- mitre-attack-mapping
-- killchain-analysis
-spec_version: 0.1.0
-tools:
-- lookup-threat-intel
-- analyze-pcaps-logs
-- generate-yara-rule
-version: 0.1.0
+version: "0.1.0"
+description: "Autonomous SOC incident correlation, alert triaging, and zero-day threat detection agent."
+model:
+  preferred: llama-3.3-70b-versatile
