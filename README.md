@@ -55,7 +55,7 @@ sentinel-threat-hunter/
 │   └── mitre_attack_enterprise_ref.md # ATT&CK framework reference
 ├── tests/
 │   └── test_agent.py                # Threat detection test suite
-├── main.py                          # SOC analyst CLI
+├── hunt.py                          # SOC analyst CLI
 └── requirements.txt
 ```
 
@@ -66,5 +66,5 @@ sentinel-threat-hunter/
 pytest tests/ -v
 
 # Analyze benchmark Sysmon event stream
-python main.py --demo
+python hunt.py --demo
 ```
