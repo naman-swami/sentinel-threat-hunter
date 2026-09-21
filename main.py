@@ -1,26 +1,29 @@
-import json
 import argparse
-from src.threat_engine import ThreatHunterEngine
+import json
+import os
+from threat_intel.mitre_attack_mapper import ThreatHuntingEngine
 
 def main():
     parser = argparse.ArgumentParser(description="Sentinel Threat Hunter CLI")
-    parser.add_argument("--demo", action="store_true", help="Run simulated endpoint threat detection audit")
+    parser.add_argument("--demo", action="store_true", help="Hunt in sample Sysmon event stream")
     args = parser.parse_args()
 
-    engine = ThreatHunterEngine()
-    sample_event = {
-        "event_id": "SEC-LOG-89102",
-        "hostname": "FIN-WORKSTATION-04",
-        "command_line": "powershell.exe -NoP -NonI -W Hidden -Enc SQBFAFgAIAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABOAGUAdAAuAFcAZQBiAEMAbABpAGUAbgB0ACkALgBEAG8AdwBuAGwAbwBhAGQAUwB0AHIAaQBuAGcAKAA=",
-        "lateral_connections": 4
-    }
+    data_file = os.path.join(os.path.dirname(__file__), "fixtures", "logs", "sysmon_event_stream.json")
 
-    report = engine.evaluate_security_event(sample_event)
-    print("="*60)
-    print(" SENTINEL CYBER THREAT HUNTING INCIDENT REPORT")
-    print("="*60)
-    print(json.dumps(report, indent=2))
-    print("="*60)
+    if args.demo:
+        with open(data_file, "r") as f:
+            events = json.load(f)
+        print("=== SENTINEL SOC THREAT HUNTING AUDIT REPORT ===\n")
+        for ev in events:
+            res = ThreatHuntingEngine.evaluate_process_event(ev["image"], ev["command_line"])
+            print(f"Process: {ev['image']} (User: {ev['user']})")
+            print(f"  Command: {ev['command_line']}")
+            print(f"  Shannon Entropy: {res['entropy']} | Threat Tier: {res['threat_level']}")
+            for d in res["detections"]:
+                print(f"    * [{d['severity']}] {d['mitre_id']} ({d['tactic']}): {d['title']}")
+            print("-" * 50)
+    else:
+        parser.print_help()
 
 if __name__ == "__main__":
     main()

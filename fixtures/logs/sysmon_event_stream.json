@@ -1,0 +1,16 @@
+[
+  {
+    "event_id": 1,
+    "image": "powershell.exe",
+    "command_line": "powershell -enc JABzACAAPQAgAE4AZQB3AC0ATwBiAGoAZQBjAHQA",
+    "parent_image": "cmd.exe",
+    "user": "SYSTEM"
+  },
+  {
+    "event_id": 1,
+    "image": "git.exe",
+    "command_line": "git status",
+    "parent_image": "explorer.exe",
+    "user": "naman"
+  }
+]

@@ -1,19 +1,20 @@
+import os
 import pytest
-from src.threat_engine import ThreatHunterEngine
+from threat_intel.mitre_attack_mapper import ThreatHuntingEngine
 
-def test_entropy_computation():
-    engine = ThreatHunterEngine()
-    assert engine.compute_shannon_entropy("aaaaaa") == 0.0
-    # High entropy random-looking string
-    assert engine.compute_shannon_entropy("SQBFAFgAIAAoAE4AZQB3AC0ATwBi") > 3.0
+def test_powershell_encoded_detection():
+    res = ThreatHuntingEngine.evaluate_process_event(
+        image="powershell.exe",
+        cmdline="powershell -enc JABzACAAPQAgAE4AZQB3AC0ATwBiAGoAZQBjAHQA"
+    )
+    assert res["threat_level"] == "CRITICAL"
+    mitre_ids = [d["mitre_id"] for d in res["detections"]]
+    assert "T1059.001" in mitre_ids
 
-def test_critical_credential_dump_detection():
-    engine = ThreatHunterEngine()
-    event = {
-        "event_id": "TEST-01",
-        "command_line": "procdump.exe -ma lsass.exe lsass.dmp",
-        "lateral_connections": 5
-    }
-    report = engine.evaluate_security_event(event)
-    assert report["threat_severity"] == "CRITICAL"
-    assert "ISOLATE_HOST" in report["automated_containment_action"]
+def test_benign_git_command():
+    res = ThreatHuntingEngine.evaluate_process_event(
+        image="git.exe",
+        cmdline="git status"
+    )
+    assert res["threat_level"] == "BENIGN"
+    assert len(res["detections"]) == 0
